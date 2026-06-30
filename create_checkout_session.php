@@ -12,8 +12,12 @@ require_once 'vendor/autoload.php';
 \Stripe\Stripe::setApiKey($stripe_secret_key);
 
 $line_items = [];
-$success_url = 'http://localhost/bookstore-main%20proj-2/success.php?session_id={CHECKOUT_SESSION_ID}';
-$cancel_url = 'http://localhost/bookstore-main%20proj-2/cancel.php';
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+$host = $_SERVER['HTTP_HOST'];
+$base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$base_url = $protocol . $host . ($base_path === '/' ? '' : $base_path);
+$success_url = $base_url . '/success.php?session_id={CHECKOUT_SESSION_ID}';
+$cancel_url = $base_url . '/cancel.php';
 
 if (isset($_POST['single_book'])) {
     // Single book purchase
