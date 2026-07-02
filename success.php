@@ -70,8 +70,8 @@ try {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Success</title>
-  <link rel="stylesheet" href="style1.css">
-  <link rel="stylesheet" href="home1.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
 

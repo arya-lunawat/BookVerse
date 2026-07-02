@@ -24,7 +24,7 @@
       <h3>Other Links</h3>
       <a href="login.php">Login</a>
       <a href="register.php">Register</a>
-      <a href="tbr.php">Your TBR List</a>
+      <a href="cart.php">Your Cart</a>
       <a href="orders.php">Orders</a>
     </div>
   </div>

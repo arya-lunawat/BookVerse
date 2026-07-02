@@ -62,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Read Book - BookVerse</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style1.css">
-    <link rel="stylesheet" href="home1.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
     <style>
         body { background: url("https://images2.alphacoders.com/261/26102.jpg") no-repeat center center fixed; color:white; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         .reader-container { max-width: 1000px; margin: 2rem auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; }

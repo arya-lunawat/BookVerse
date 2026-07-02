@@ -14,7 +14,7 @@ if(isset($message)){
   <div class="header_1">
     <div class="user_flex">
       <div class="logo_cont">
-        <img src="logo1.png" alt="">
+        <img src="logo.png" alt="">
 
         <a href="home.php" class="book_logo">BookVerse</a>
       </div>
