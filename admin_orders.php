@@ -8,13 +8,37 @@ if (!isset($admin_id)) {
   header('location:login.php');
 }
 
-if (isset($_POST['update_order'])) {
-  $order_update_id = $_POST['order_id'];
-  $update_payment = $_POST['update_payment'];
-
-  mysqli_query($conn, "UPDATE `orders` SET payment_status = '$update_payment' WHERE id = '$order_update_id'") or die('query failed');
-
-  $message[] = 'Order payment status has been updated';
+// Handle CSV Export
+if (isset($_POST['export_csv'])) {
+  $select_orders = mysqli_query($conn, "SELECT * FROM `orders` WHERE payment_status = 'paid' OR payment_status = 'completed'") or die('query failed');
+  
+  // Set headers for CSV download
+  header('Content-Type: text/csv');
+  header('Content-Disposition: attachment; filename="orders_' . date('Y-m-d_H-i-s') . '.csv"');
+  
+  // Open output stream
+  $output = fopen('php://output', 'w');
+  
+  // Write CSV header
+  fputcsv($output, array('Order ID', 'User ID', 'Customer Name', 'Email', 'Contact Number', 'Books Purchased', 'Total Payment (₹)', 'Date', 'Payment Status'));
+  
+  // Write data rows
+  while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
+    fputcsv($output, array(
+      $fetch_orders['id'],
+      $fetch_orders['user_id'],
+      $fetch_orders['name'],
+      $fetch_orders['email'],
+      $fetch_orders['number'],
+      $fetch_orders['total_products'],
+      $fetch_orders['total_price'],
+      $fetch_orders['placed_on'],
+      $fetch_orders['payment_status']
+    ));
+  }
+  
+  fclose($output);
+  exit;
 }
 ?>
 
@@ -24,75 +48,56 @@ if (isset($_POST['update_order'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orders</title>
-  <link rel="stylesheet" href="admin1.css">
+  <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <?php include 'admin_header.php'; ?>
 
-<!-- Pending Orders Section -->
+<!-- Orders Section -->
 <section class="admin_orders">
-  <h1 class="title">Pending Orders</h1>
+  <h1 class="title">Orders</h1>
+  
+  <div class="export_section">
+    <form action="" method="post" style="margin-bottom: 1rem;">
+      <input type="submit" name="export_csv" value="Export as CSV" class="export-btn">
+    </form>
+  </div>
+  
   <div class="admin_box_container">
     <?php
-    $select_orders = mysqli_query($conn, "SELECT * FROM `orders` WHERE payment_status = 'pending'") or die('query failed');
+    $select_orders = mysqli_query($conn, "SELECT * FROM `orders` WHERE payment_status = 'paid' OR payment_status = 'completed'") or die('query failed');
 
     if (mysqli_num_rows($select_orders) > 0) {
       while ($fetch_orders = mysqli_fetch_assoc($select_orders)) {
     ?>
     <div class="admin_box">
+      <p>Order ID : <span><?php echo $fetch_orders['id'] ?></span></p>
       <p>User Id : <span><?php echo $fetch_orders['user_id'] ?></span></p>
       <p>Placed On : <span><?php echo $fetch_orders['placed_on'] ?></span></p>
-      <p>Name : <span><?php echo $fetch_orders['name'] ?></span></p>
-      <p>Number : <span><?php echo $fetch_orders['number'] ?></span></p>
+      <p>Customer Name : <span><?php echo $fetch_orders['name'] ?></span></p>
+      <p>Contact Number : <span><?php echo $fetch_orders['number'] ?></span></p>
       <p>Email : <span><?php echo $fetch_orders['email'] ?></span></p>
-      <p>Books Purchased : <span><?php echo $fetch_orders['total_products'] ?></span></p>
-      <p>Total Price : <span><?php echo $fetch_orders['total_price'] ?></span></p>
-
-      <form action="" method="post">
-        <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">
-        <select name="update_payment" required>
-          <option value="" disabled selected><?php echo $fetch_orders['payment_status']; ?></option>
-          <option value="pending">pending</option>
-          <option value="completed">completed</option>
-        </select>
-        <input type="submit" value="Update" name="update_order" class="option-btn">
-      </form>
+      
+      <div class="books_purchased_section">
+        <p><strong>Books Purchased :</strong></p>
+        <div class="books_list">
+          <?php
+            $books = array_map('trim', explode(',', $fetch_orders['total_products']));
+            foreach($books as $book) {
+              echo '<span class="book_item">• ' . htmlspecialchars($book) . '</span><br>';
+            }
+          ?>
+        </div>
+      </div>
+      
+      <p class="total_amount">Total Payment : <span class="price_highlight">₹<?php echo number_format($fetch_orders['total_price'], 2); ?></span></p>
     </div>
     <?php
       }
     } else {
-      echo '<p class="empty">No pending orders yet!</p>';
-    }
-    ?>
-  </div>
-</section>
-
-<!-- Completed Orders Section -->
-<section class="admin_orders">
-  <h1 class="title">Completed Orders</h1>
-  <div class="admin_box_container">
-    <?php
-    $select_completed_orders = mysqli_query($conn, "SELECT * FROM `orders` WHERE payment_status = 'completed'") or die('query failed');
-
-    if (mysqli_num_rows($select_completed_orders) > 0) {
-      while ($fetch_orders = mysqli_fetch_assoc($select_completed_orders)) {
-    ?>
-    <div class="admin_box">
-      <p>User Id : <span><?php echo $fetch_orders['user_id'] ?></span></p>
-      <p>Placed On : <span><?php echo $fetch_orders['placed_on'] ?></span></p>
-      <p>Name : <span><?php echo $fetch_orders['name'] ?></span></p>
-      <p>Number : <span><?php echo $fetch_orders['number'] ?></span></p>
-      <p>Email : <span><?php echo $fetch_orders['email'] ?></span></p>
-      <p>Books Purchased : <span><?php echo $fetch_orders['total_products'] ?></span></p>
-      <p>Total Price : <span><?php echo $fetch_orders['total_price'] ?></span></p>
-      <p>Payment Status : <span><?php echo $fetch_orders['payment_status'] ?></span></p>
-    </div>
-    <?php
-      }
-    } else {
-      echo '<p class="empty">No completed orders yet!</p>';
+      echo '<p class="empty">No orders yet!</p>';
     }
     ?>
   </div>

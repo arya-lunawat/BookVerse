@@ -23,7 +23,7 @@ if(isset($_GET['delete'])){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messages</title>
-  <link rel="stylesheet" href="admin1.css">
+  <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,7 +44,7 @@ include 'admin_header.php';
       <p>Number : <span><?php echo $fetch_msgs['number']; ?></span></p>
       <p>Email : <span><?php echo $fetch_msgs['email']; ?></span></p>
       <p>Message : <span><?php echo $fetch_msgs['message']; ?></span></p>
-      <a href="admin_messages.php?delete=<?php echo $fetch_msgs['id']; ?>" onclick="return confirm('Are you sure you want to delete this message?');" class="delete-btn">delete</a>
+      <a href="admin_messages.php?delete=<?php echo $fetch_msgs['id']; ?>" onclick="return confirm('Are you sure you want to delete this message?');" class="delete-btn">Delete</a>
     </div>
     <?php
       };

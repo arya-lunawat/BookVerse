@@ -298,6 +298,82 @@ body {
     z-index: -1; /* Push it behind the content */
 }
 
+/* Styles for Books Purchased Section */
+.books_purchased_section {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    border-left: 4px solid rgb(194, 145, 48);
+}
+
+.books_purchased_section p {
+    color: rgb(194, 145, 48);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.books_list {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.75rem;
+    border-radius: 0.4rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.book_item {
+    display: block;
+    color: #fff;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.book_item:hover {
+    color: rgb(194, 145, 48);
+}
+
+/* Styles for Total Amount */
+.total_amount {
+    background-color: rgba(194, 145, 48, 0.1);
+    padding: 0.75rem;
+    border-radius: 0.4rem;
+    margin: 1rem 0;
+    font-weight: 600;
+}
+
+.price_highlight {
+    color: #FFD700;
+    font-size: 1.3rem;
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Export Section Styling */
+.export_section {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.export-btn {
+    background-color: rgb(194, 145, 48);
+    color: black;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.export-btn:hover {
+    background-color: rgb(220, 165, 70);
+    box-shadow: 3px 3px 12px rgba(194, 145, 48, 0.5);
+}
+
  .admin_users,
  .admin_messages{
     width: 100%;

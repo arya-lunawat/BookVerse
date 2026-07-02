@@ -23,7 +23,7 @@ if(isset($_GET['delete'])){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Users</title>
-  <link rel="stylesheet" href="admin1.css">
+  <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,7 +44,7 @@ include 'admin_header.php';
       <p>Username : <span><?php echo $fetch_users['name']?></span></p>
       <p>Email : <span><?php echo $fetch_users['email']?></span></p>
       <p>Usertype : <span style="color:<?php if($fetch_users['user_type']=='admin'){echo 'blue';}else{echo 'green';}?>"><?php echo $fetch_users['user_type']?></span></p>
-      <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('Are you sure you want to delete this user?');" class="delete-btn">delete</a>
+      <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('Are you sure you want to delete this user?');" class="delete-btn">Delete</a>
     </div>
       <?php
         };

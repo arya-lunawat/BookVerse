@@ -19,7 +19,7 @@ if(!isset($admin_id)){
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link rel="stylesheet" href="admin1.css">
+  <link rel="stylesheet" href="admin.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,42 +31,10 @@ include 'admin_header.php';
 <section class="admin_dashboard">
 
   <div class="admin_box_container">
-
-    <div class="admin_box">
-      <?php
-        $total_pendings = 0;
-        $select_pending = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'pending'") or die('query failed');
-
-        if(mysqli_num_rows($select_pending) > 0){
-          while($fetch_pendings = mysqli_fetch_assoc($select_pending)){
-            $total_price=$fetch_pendings['total_price'];
-            $total_pendings+=$total_price;
-          };
-        };
-      ?>
-      <h3>Rs. <?php echo $total_pendings;?></h3>
-      <p>Total Payments Pending </p>
-    </div>
-
-    <div class="admin_box">
-      <?php
-        $total_completed = 0;
-        $selectcompleted = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'completed'") or die('query failed');
-
-        if(mysqli_num_rows($selectcompleted) > 0){
-          while($fetch_completed = mysqli_fetch_assoc($selectcompleted)){
-            $total_price=$fetch_completed['total_price'];
-            $total_completed+=$total_price;
-          };
-        };
-      ?>
-      <h3>Rs. <?php echo $total_completed;?></h3>
-      <p>Completed Payments</p>
-    </div>
     
     <div class="admin_box">
       <?php
-        $select_orders=mysqli_query($conn,"SELECT * FROM `orders` WHERE payment_status='completed'") or die('query failed');
+        $select_orders=mysqli_query($conn,"SELECT * FROM `orders` WHERE payment_status='paid' OR payment_status='completed'") or die('query failed');
         $number_of_orders=mysqli_num_rows($select_orders);
       ?>
       <h3><?php echo $number_of_orders;?></h3>
