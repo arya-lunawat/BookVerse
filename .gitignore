@@ -1,5 +1,4 @@
 /vendor/
 /.env
 /node_modules/
-config.php
 test_conn.php
